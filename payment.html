@@ -35,12 +35,17 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById("paymentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      alert("Payment Successful!");
-      window.location.href = "confirmation.html";
-    });
-  </script>
+  <!-- Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal">
+      <p>Are you sure you want to proceed with the payment?</p>
+      <div class="modal-buttons">
+        <button class="btn-confirm" id="confirmYes">Yes</button>
+        <button class="btn-cancel" id="confirmNo">No</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
