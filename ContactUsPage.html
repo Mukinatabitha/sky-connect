@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us | SkyConnect</title>
+  <link rel="stylesheet" href="./ContactUsPage.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <img src="./Pictures/skyconnect-logo.png" alt="Sky Connect Logo" class="header-logo">
+      <span class="header-title">SkyConnect</span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Contact Us</h1>
+      <div class="line"></div>
+      <p>Have a question or need assistance? Leave your contact details and we’ll get back to you shortly.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="form-section">
+      <h2>Get in Touch</h2>
+      <form action="/send-message" method="POST">
+        <div>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+          <label for="message">Your Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit">Send Message</button>
+      </form>
+
+      <div class="contact-info">
+        <h3>Other Ways to Reach Us</h3>
+        <p>📍 Nairobi, Kenya</p>
+        <p>📞 +254 712 345678</p>
+        <p>✉️ support@skyconnect.com</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 SkyConnect.
+  </footer>
+
+</body>
+</html>
+
+

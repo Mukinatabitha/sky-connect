@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #eff6ff;
+  color: #1f2937;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #fef9c3;
+  color: #78350f;
+  padding: 12px 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adds space between logo and text */
+  justify-content: flex-start; /* Align both to the left */
+}
+
+.header-logo {
+  height: 48px; /* Adjust to desired size */
+  width: auto;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #78350f;
+}
+
+
+.hero {
+  position: relative;
+  height: 32rem;
+  background-image: url('./Pictures/ContactUs Image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  color: white;
+}
+
+.hero-overlay h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #f97316;
+  margin-bottom: 1rem;
+}
+
+.hero-overlay .line {
+  width: 5rem;
+  height: 4px;
+  background: white;
+  margin-bottom: 1rem;
+}
+
+.hero-overlay p {
+  max-width: 600px;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+main {
+  flex-grow: 1;
+}
+
+.form-section {
+  max-width: 768px;
+  background: white;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-section h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #5c95bb;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: #374151;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+  border-color: #5c95bb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(92, 149, 187, 0.2);
+}
+
+button {
+  background-color: #5c95bb;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: #4b7da1;
+}
+
+.contact-info {
+  margin-top: 2.5rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.contact-info h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.contact-info p {
+  color: #374151;
+  margin: 0.25rem 0;
+}
+
+footer {
+  background-color: #fef9c3;
+  color: #78350f;
+  text-align: center;
+  padding: 1rem;
+}
