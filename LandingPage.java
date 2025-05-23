@@ -1,11 +1,13 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
-import java.io.File;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.imageio.ImageIO;
+import java.io.File;
 
 public class LandingPage {
     private static Point mouseClickPoint;
@@ -33,10 +35,11 @@ public class LandingPage {
 
     private static void setAppIcon(JFrame frame) {
         try {
-            Image icon = ImageIO.read(new File("assets/skyconnect-logo.png"));
+            URL url = new URL("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/skyconnect-logo.png");
+            Image icon = ImageIO.read(url);
             frame.setIconImage(icon);
         } catch (IOException e) {
-            System.err.println("Icon not found. Skipping icon load.");
+            System.err.println("Icon not found or failed to load from URL.");
         }
     }
 
@@ -69,7 +72,8 @@ public class LandingPage {
     private static JPanel buildBackgroundPanel(JFrame frame) {
         Image backgroundImage = null;
         try {
-            backgroundImage = ImageIO.read(new File("assets/skybackground.jpg"));
+            URL bgUrl = new URL("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/skybackground.jpg");
+            backgroundImage = ImageIO.read(bgUrl);
         } catch (IOException e) {
             System.err.println("Background image not found.");
         }
@@ -109,11 +113,12 @@ public class LandingPage {
         GridBagConstraints logoConstraints = new GridBagConstraints();
         logoConstraints.gridx = 0;
         logoConstraints.gridy = 0;
-        logoConstraints.insets = new Insets(40, 0, 20, 0); // Adjust this to move logo up/down
+        logoConstraints.insets = new Insets(40, 0, 20, 0);
         logoConstraints.anchor = GridBagConstraints.CENTER;
 
         try {
-            Image logoImage = ImageIO.read(new File("assets/skyconnect-logo.png"));
+            URL logoUrl = new URL("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/skyconnect-logo.png");
+            Image logoImage = ImageIO.read(logoUrl);
             Image scaledLogo = logoImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
             backgroundPanel.add(logoLabel, logoConstraints);
@@ -121,7 +126,7 @@ public class LandingPage {
             System.err.println("Logo not found.");
         }
 
-        // Build glass panel
+        // Glass panel
         JPanel glassPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -136,7 +141,7 @@ public class LandingPage {
 
         glassPanel.setOpaque(false);
         glassPanel.setLayout(new BoxLayout(glassPanel, BoxLayout.Y_AXIS));
-        glassPanel.setBorder(new EmptyBorder(150, 40, 60, 40)); // Top padding reduced
+        glassPanel.setBorder(new EmptyBorder(150, 40, 60, 40));
         glassPanel.setPreferredSize(new Dimension(520, 380));
 
         glassPanel.add(createLabel("✈ Welcome to <span style='color:#ffffff;'>SkyConnect</span>", 30, true));
@@ -145,7 +150,6 @@ public class LandingPage {
         glassPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         glassPanel.add(createContinueButton(frame));
 
-        // Add glassPanel below the logo
         GridBagConstraints panelConstraints = new GridBagConstraints();
         panelConstraints.gridx = 0;
         panelConstraints.gridy = 1;
