@@ -33,7 +33,7 @@ public class LandingPage {
 
     private static void setAppIcon(JFrame frame) {
         try {
-            Image icon = ImageIO.read(new File("assets/skyconnect-icon.png"));
+            Image icon = ImageIO.read(new File("assets/skyconnect-logo.png"));
             frame.setIconImage(icon);
         } catch (IOException e) {
             System.err.println("Icon not found. Skipping icon load.");
@@ -67,20 +67,32 @@ public class LandingPage {
     }
 
     private static JPanel buildBackgroundPanel(JFrame frame) {
+        Image backgroundImage = null;
+        try {
+            backgroundImage = ImageIO.read(new File("assets/skybackground.jpg"));
+        } catch (IOException e) {
+            System.err.println("Background image not found.");
+        }
+
+        final Image finalBackgroundImage = backgroundImage;
+
         JPanel backgroundPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                GradientPaint gp = new GradientPaint(0, 0, new Color(0, 94, 184),
-                        0, getHeight(), new Color(100, 200, 255));
-                g2d.setPaint(gp);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
+                if (finalBackgroundImage != null) {
+                    g.drawImage(finalBackgroundImage, 0, 0, getWidth(), getHeight(), this);
+                } else {
+                    Graphics2D g2d = (Graphics2D) g;
+                    GradientPaint gp = new GradientPaint(0, 0, new Color(0, 94, 184),
+                            0, getHeight(), new Color(100, 200, 255));
+                    g2d.setPaint(gp);
+                    g2d.fillRect(0, 0, getWidth(), getHeight());
+                }
             }
         };
         backgroundPanel.setLayout(new GridBagLayout());
 
-        // Draggable window
         backgroundPanel.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 mouseClickPoint = e.getPoint();
@@ -93,7 +105,23 @@ public class LandingPage {
             }
         });
 
-        // Glass panel
+        // Add logo independently to backgroundPanel
+        GridBagConstraints logoConstraints = new GridBagConstraints();
+        logoConstraints.gridx = 0;
+        logoConstraints.gridy = 0;
+        logoConstraints.insets = new Insets(40, 0, 20, 0); // Adjust this to move logo up/down
+        logoConstraints.anchor = GridBagConstraints.CENTER;
+
+        try {
+            Image logoImage = ImageIO.read(new File("assets/skyconnect-logo.png"));
+            Image scaledLogo = logoImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+            JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
+            backgroundPanel.add(logoLabel, logoConstraints);
+        } catch (IOException e) {
+            System.err.println("Logo not found.");
+        }
+
+        // Build glass panel
         JPanel glassPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -105,40 +133,47 @@ public class LandingPage {
                 super.paintComponent(g);
             }
         };
+
         glassPanel.setOpaque(false);
         glassPanel.setLayout(new BoxLayout(glassPanel, BoxLayout.Y_AXIS));
-        glassPanel.setBorder(new EmptyBorder(60, 40, 60, 40));
-        glassPanel.setPreferredSize(new Dimension(520, 340));
+        glassPanel.setBorder(new EmptyBorder(150, 40, 60, 40)); // Top padding reduced
+        glassPanel.setPreferredSize(new Dimension(520, 380));
 
-        // Add components
-        glassPanel.add(createLabel("✈ Welcome to <span style='color:#ffffff;'>SkyConnect</span>", 34, true));
-        glassPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-        glassPanel.add(createLabel("👉 Your journey begins here.", 20, false));
-        glassPanel.add(Box.createRigidArea(new Dimension(0, 40)));
+        glassPanel.add(createLabel("✈ Welcome to <span style='color:#ffffff;'>SkyConnect</span>", 30, true));
+        glassPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+        glassPanel.add(createLabel("Your journey begins here.", 22, false));
+        glassPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         glassPanel.add(createContinueButton(frame));
 
-        backgroundPanel.add(glassPanel);
+        // Add glassPanel below the logo
+        GridBagConstraints panelConstraints = new GridBagConstraints();
+        panelConstraints.gridx = 0;
+        panelConstraints.gridy = 1;
+        panelConstraints.anchor = GridBagConstraints.CENTER;
+        backgroundPanel.add(glassPanel, panelConstraints);
+
         return backgroundPanel;
     }
 
     private static JLabel createLabel(String text, int fontSize, boolean bold) {
-        JLabel label = new JLabel("<html><div style='text-align: center;'>" + text + "</div></html>");
+        JLabel label = new JLabel("<html>" + text + "</html>");
         label.setFont(new Font("Segoe UI", bold ? Font.BOLD : Font.PLAIN, fontSize));
         label.setForeground(Color.WHITE);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
         return label;
     }
 
     private static JButton createContinueButton(JFrame frame) {
-        JButton button = new JButton("👉 CONTINUE");
+        JButton button = new JButton("CONTINUE");
         button.setFont(new Font("Segoe UI", Font.BOLD, 18));
         button.setBackground(Color.WHITE);
         button.setForeground(new Color(0, 94, 184));
         button.setFocusPainted(false);
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setPreferredSize(new Dimension(320, 60));
         button.setBorder(BorderFactory.createLineBorder(new Color(0, 94, 184), 2, true));
-        button.setMaximumSize(new Dimension(240, 50));
 
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
