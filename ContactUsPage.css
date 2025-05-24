@@ -39,7 +39,7 @@ header {
 .hero {
   position: relative;
   height: 32rem;
-  background-image: url('./Pictures/ContactUs Image.png');
+  background-image: url("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/ContactUs%20Image.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
