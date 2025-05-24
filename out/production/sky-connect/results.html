@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flight Results - SkyConnect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.results-bg {
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+    }
+
+    main.container {
+      max-width: 960px;
+      background: #ffffff;
+      margin: 40px auto;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      color: #000;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 600;
+      font-size: 28px;
+    }
+
+    .flight-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .flight-card {
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .flight-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .flight-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .airline-logo-img {
+      width: 50px;
+      height: auto;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+
+    .price {
+      color: #27ae60;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      background: #3498db;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.25s ease;
+    }
+
+    button:hover {
+      background: #2c80b4;
+    }
+
+    .error-message {
+      text-align: center;
+      font-size: 18px;
+      padding: 20px;
+      background: #ffe8e8;
+      color: #b00020;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="results-bg">
+  <main class="container">
+    <h2>Available Flights</h2>
+    <div id="flightList" class="flight-grid"></div>
+  </main>
+
+  <script>
+    const container = document.getElementById("flightList");
+    const searchData = JSON.parse(localStorage.getItem('searchData'));
+
+    const flights = [
+      {
+        id: 1,
+        airline: "Delta Airlines",
+        logo: "https://1000logos.net/wp-content/uploads/2021/04/Delta-Air-Lines-logo.png",
+        time: "08:00 - 11:00",
+        price: 250
+      },
+      {
+        id: 2,
+        airline: "Emirates",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/Emirates-logo.png",
+        time: "13:00 - 16:00",
+        price: 320
+      },
+      {
+        id: 3,
+        airline: "Qatar Airways",
+        logo: "https://1000logos.net/wp-content/uploads/2021/04/Qatar-Airways-logo.png",
+        time: "18:00 - 21:00",
+        price: 290
+      }
+    ];
+
+    if (!searchData || !searchData.from || !searchData.to || !searchData.class) {
+      container.innerHTML = `<div class="error-message">⚠️ No search data found. Please go back and search for flights.</div>`;
+    } else {
+      flights.forEach(flight => {
+        const card = document.createElement("div");
+        card.className = "flight-card";
+        card.innerHTML = `
+          <div class="flight-header">
+            <img src="${flight.logo}" alt="${flight.airline} logo" class="airline-logo-img" />
+            <h3>${flight.airline}</h3>
+          </div>
+          <p><strong>Route:</strong> ${searchData.from} ➡ ${searchData.to}</p>
+          <p><strong>Time:</strong> ${flight.time}</p>
+          <p><strong>Class:</strong> ${searchData.class}</p>
+          <p><strong>Price:</strong> <span class="price">$${flight.price}</span></p>
+          <button onclick="bookFlight(${flight.id})">Book Now</button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function bookFlight(id) {
+      const selected = flights.find(f => f.id === id);
+      localStorage.setItem("selectedFlight", JSON.stringify(selected));
+      window.location.href = "booking.html";
+    }
+  </script>
+</body>
+</html>

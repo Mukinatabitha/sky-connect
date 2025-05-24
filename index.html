@@ -14,7 +14,7 @@
     <nav class="nav-links" role="navigation" aria-label="Main menu">
       <a href="index.html" class="active" aria-current="page">Home</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="ContactUsPage.html">Contact</a>
     </nav>
     <a href="signin.html" class="sign-in-btn" id="signInBtn">Sign In</a>
     <button id="logoutBtn" style="display:none; margin-left: 10px; padding: 6px 12px; cursor:pointer; border-radius: 4px; border:none; background:#d9534f; color:#fff;">Sign Out</button>
@@ -156,24 +156,85 @@
   </div>
 </footer>
 
+<!-- ... existing HTML before scripts ... -->
+
 <script>
-  // Passenger count functionality
-  function updatePassengerCount(change) {
-    const passengerElement = document.getElementById('passengerValue');
-    let count = parseInt(passengerElement.textContent);
-    count += change;
-    
-    // Ensure count doesn't go below 1 or above some reasonable maximum (e.g., 10)
-    if (count < 1) count = 1;
-    if (count > 10) count = 10;
-    
-    passengerElement.textContent = count;
-    document.getElementById('passenger-count').textContent = 
-      count === 1 ? '1 Passenger' : `${count} Passengers`;
-  }
+  // Load logged-in user and update UI
+  window.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const greetingEl = document.getElementById("greeting");
+    const signInBtn = document.getElementById("signInBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    from: params.get('origin'),
+    to: params.get('destination'),
+    departDate: params.get('departDate'),
+    returnDate: params.get('returnDate'),
+    flightType: params.get('flightType'),
+    budget: params.get('budget'),
+    class: params.get('flightClass'),
+    passengers: params.get('passengerCount'),
+  };
+}
+
+const searchData = getQueryParams();
+
+if (!searchData || !searchData.from || !searchData.to || !searchData.class) {
+  container.innerHTML = `<div class="error-message">⚠️ No search data found. Please go back and search for flights.</div>`;
+} else {
+  // existing code to show flight cards
+}
+
+
+    if (user && user.name) {
+      greetingEl.textContent = `👋 Welcome back, ${user.name}!`;
+      signInBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    }
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("user");
+      window.location.reload();
+    });
+  });
 </script>
 
 <script src="auth.js" defer></script>
 <script src="app.js" defer></script>
+
+<script>
+  // Toggle passenger dropdown visibility
+  const passengerSelector = document.getElementById("passengerSelect");
+  const dropdown = passengerSelector.querySelector(".dropdown");
+  const selected = document.getElementById("passenger-count");
+  const passengerValue = document.getElementById("passengerValue");
+
+  selected.addEventListener("click", () => {
+    dropdown.hidden = !dropdown.hidden;
+  });
+
+  // Update passenger count
+  function updatePassengerCount(change) {
+    let count = parseInt(passengerValue.textContent);
+    count += change;
+
+    // Clamp value between 1 and 10
+    count = Math.max(1, Math.min(count, 10));
+
+    passengerValue.textContent = count;
+    selected.textContent = count === 1 ? "1 Passenger" : `${count} Passengers`;
+  }
+
+  // Close dropdown if clicking outside
+  document.addEventListener("click", function (event) {
+    if (!passengerSelector.contains(event.target)) {
+      dropdown.hidden = true;
+    }
+  });
+</script>
+
 </body>
 </html>

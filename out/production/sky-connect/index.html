@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkyConnect – Book Smarter Flights</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+<header class="header" role="banner">
+  <div class="container nav">
+    <div class="logo" aria-label="SkyConnect logo">✈️ SkyConnect</div>
+    <nav class="nav-links" role="navigation" aria-label="Main menu">
+      <a href="index.html" class="active" aria-current="page">Home</a>
+      <a href="about.html">About</a>
+      <a href="ContactUsPage.html">Contact</a>
+    </nav>
+    <a href="signin.html" class="sign-in-btn" id="signInBtn">Sign In</a>
+    <button id="logoutBtn" style="display:none; margin-left: 10px; padding: 6px 12px; cursor:pointer; border-radius: 4px; border:none; background:#d9534f; color:#fff;">Sign Out</button>
+  </div>
+</header>
+
+<!-- Greeting message for logged-in user -->
+<div id="greeting" style="text-align: center; margin: 15px 0; font-weight: 600; font-size: 1.1rem;"></div>
+
+<main>
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <div class="hero-content">
+        <h1 id="hero-heading">Fly Smarter with <span>SkyConnect</span></h1>
+        <p>Discover affordable flights, seamless layovers, and top-tier travel perks—all in one app.</p>
+      </div>
+
+      <div class="search-card" role="search">
+        <form id="searchForm" class="search-form" autocomplete="on">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="origin">Origin</label>
+              <input type="text" id="origin" name="origin" placeholder="e.g. Nairobi" required />
+            </div>
+            <div class="form-group">
+              <label for="destination">Destination</label>
+              <input type="text" id="destination" name="destination" placeholder="e.g. Tokyo" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="departDate">Departure Date</label>
+              <input type="date" id="departDate" name="departDate" required />
+            </div>
+            <div class="form-group">
+              <label for="returnDate">Return Date</label>
+              <input type="date" id="returnDate" name="returnDate" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Flight Type</label>
+              <div class="radio-group">
+                <label>
+                  <input type="radio" name="flightType" value="direct" checked> Direct
+                </label>
+                <label>
+                  <input type="radio" name="flightType" value="layover"> Layover
+                </label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="budget">Max Budget ($)</label>
+              <input type="number" id="budget" name="budget" placeholder="e.g. 1000" min="0" step="50" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Flight Class</label>
+              <div class="select-wrapper">
+                <select id="flightClass" name="flightClass" class="flight-class-select">
+                  <option value="economy">Economy Class</option>
+                  <option value="business">Business Class</option>
+                  <option value="first">First Class</option>
+                </select>
+              </div>
+            </div>
+            <div id="passengerSelect" class="form-group passenger-dropdown">
+              <label for="passenger-count">Passengers</label>
+              <div class="selected" id="passenger-count">1 Passenger</div>
+              <div class="dropdown" hidden aria-label="Passenger selector">
+                <button type="button" class="decrease" aria-label="Decrease passengers" onclick="updatePassengerCount(-1)">−</button>
+                <div class="passenger-count"><span id="passengerValue">1</span></div>
+                <button type="button" class="increase" aria-label="Increase passengers" onclick="updatePassengerCount(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="search-btn">Search Flights</button>
+        </form>
+      </div>
+    </div>
+    <div id="flightResults" class="flight-results"></div>
+    <div id="loadingSpinner" style="display:none;">Loading...</div>
+  </section>
+
+  <section class="features container" aria-labelledby="features-heading">
+    <h2 id="features-heading">Why Choose SkyConnect?</h2>
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="icon" role="img" aria-label="Smart layovers">🛬</div>
+        <h3>Smart Layovers</h3>
+        <p>Book layover lounges, transport & wellness packages before you land.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon" role="img" aria-label="Secure pricing">🔒</div>
+        <h3>Transparent Pricing</h3>
+        <p>No hidden fees. Full cost breakdown before you pay.</p>
+      </article>
+      <article class="feature-card">
+        <div class="icon" role="img" aria-label="Global access">🌐</div>
+        <h3>Global Coverage</h3>
+        <p>Access flights from over 300 airlines across 100+ countries.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" role="contentinfo">
+  <div class="container footer-content">
+    <div class="footer-brand">
+      <h3>SkyConnect</h3>
+      <p>Helping you navigate the skies with ease, convenience and clarity.</p>
+    </div>
+    <div class="footer-links">
+      <div class="link-group">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#">Flight Deals</a></li>
+          <li><a href="#">Destinations</a></li>
+          <li><a href="#">Travel Tips</a></li>
+        </ul>
+      </div>
+      <div class="link-group">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 SkyConnect. All rights reserved.
+  </div>
+</footer>
+
+<!-- ... existing HTML before scripts ... -->
+
+<script>
+  // Load logged-in user and update UI
+  window.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const greetingEl = document.getElementById("greeting");
+    const signInBtn = document.getElementById("signInBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    from: params.get('origin'),
+    to: params.get('destination'),
+    departDate: params.get('departDate'),
+    returnDate: params.get('returnDate'),
+    flightType: params.get('flightType'),
+    budget: params.get('budget'),
+    class: params.get('flightClass'),
+    passengers: params.get('passengerCount'),
+  };
+}
+
+const searchData = getQueryParams();
+
+if (!searchData || !searchData.from || !searchData.to || !searchData.class) {
+  container.innerHTML = `<div class="error-message">⚠️ No search data found. Please go back and search for flights.</div>`;
+} else {
+  // existing code to show flight cards
+}
+
+
+    if (user && user.name) {
+      greetingEl.textContent = `👋 Welcome back, ${user.name}!`;
+      signInBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    }
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("user");
+      window.location.reload();
+    });
+  });
+</script>
+
+<script src="auth.js" defer></script>
+<script src="app.js" defer></script>
+
+<script>
+  // Toggle passenger dropdown visibility
+  const passengerSelector = document.getElementById("passengerSelect");
+  const dropdown = passengerSelector.querySelector(".dropdown");
+  const selected = document.getElementById("passenger-count");
+  const passengerValue = document.getElementById("passengerValue");
+
+  selected.addEventListener("click", () => {
+    dropdown.hidden = !dropdown.hidden;
+  });
+
+  // Update passenger count
+  function updatePassengerCount(change) {
+    let count = parseInt(passengerValue.textContent);
+    count += change;
+
+    // Clamp value between 1 and 10
+    count = Math.max(1, Math.min(count, 10));
+
+    passengerValue.textContent = count;
+    selected.textContent = count === 1 ? "1 Passenger" : `${count} Passengers`;
+  }
+
+  // Close dropdown if clicking outside
+  document.addEventListener("click", function (event) {
+    if (!passengerSelector.contains(event.target)) {
+      dropdown.hidden = true;
+    }
+  });
+</script>
+
+</body>
+</html>
