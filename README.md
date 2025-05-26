@@ -1,7 +1,7 @@
-# FlightLink - Flight Booking Application
+# SkyConnect - Flight Booking Application
 
 ## Overview
-FlightLink is a flight booking application that allows users to search for flights, book tickets, and manage their bookings seamlessly.
+SkyConnect is a flight booking application that allows users to search for flights, book tickets, and manage their bookings seamlessly.
 
 ## Features
 - Search for flights based on origin, destination, and date.
@@ -13,6 +13,7 @@ FlightLink is a flight booking application that allows users to search for fligh
 - HTML
 - CSS
 - JavaScript
+- Java
 - Local Storage for user data
 
 ## Getting Started
@@ -25,6 +26,5 @@ FlightLink is a flight booking application that allows users to search for fligh
 - Implement payment processing.
 - Enhance user experience with additional features.
 
-## License
-This project is licensed under the MIT License.
+
 
