@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flight Details & Booking</title>
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body.details-bg {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+    }
+
+    .details-container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #ffffff;
+      color: #000;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .details-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .flight-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .airline-logo-img {
+      width: 60px;
+      height: auto;
+      border-radius: 6px;
+      object-fit: contain;
+    }
+
+    .info-group {
+      margin: 20px 0;
+    }
+
+    .info-group h3 {
+      margin-bottom: 10px;
+      border-bottom: 2px solid #3498db;
+      display: inline-block;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="time"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    input[type="text"]:focus,
+    input[type="time"]:focus,
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 8px #3498db;
+    }
+
+    .immigration-list {
+      margin-left: 20px;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .back-button {
+      margin-top: 25px;
+      background: #3498db;
+      padding: 14px 20px;
+      border: none;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body class="details-bg">
+  <div class="details-container">
+    <div id="flightInfo" class="flight-header"></div>
+
+    <h2>Enter Your Flight Details</h2>
+    <form id="flightForm">
+      <label for="from">From:</label>
+      <input type="text" id="from" name="from" placeholder="Departure city" required />
+
+      <label for="to">To:</label>
+      <input type="text" id="to" name="to" placeholder="Destination city" required />
+
+      <label for="class">Class:</label>
+      <select id="class" name="class" required>
+        <option value="" disabled selected>Select class</option>
+        <option>Economy</option>
+        <option>Business</option>
+        <option>First Class</option>
+      </select>
+
+      <label for="time">Preferred Time:</label>
+      <input type="time" id="time" name="time" required />
+
+      <label for="price">Price ($):</label>
+      <input type="number" id="price" name="price" min="0" placeholder="Enter your budget" required />
+
+      <h3>Immigration & Travel Requirements</h3>
+      <ul class="immigration-list">
+        <li>✔ Valid passport with at least 6 months before expiration</li>
+        <li>✔ Visa (if required based on destination country)</li>
+        <li>✔ COVID-19 vaccination or testing documents (as required)</li>
+      </ul>
+
+      <button type="submit" class="back-button">Proceed to Booking</button>
+    </form>
+  </div>
+
+  <script>
+    const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
+    const searchData = JSON.parse(localStorage.getItem('searchData'));
+
+    if (!selectedFlight || !searchData) {
+      alert("Missing flight or search data. Redirecting...");
+      window.location.href = "results.html";
+    } else {
+      const flightInfoDiv = document.getElementById('flightInfo');
+      flightInfoDiv.innerHTML = `
+        <img src="${selectedFlight.logo}" alt="${selectedFlight.airline} logo" class="airline-logo-img" />
+        <h2>${selectedFlight.airline}</h2>
+      `;
+
+      document.getElementById('from').value = searchData.from;
+      document.getElementById('to').value = searchData.to;
+      document.getElementById('class').value = searchData.class;
+      document.getElementById('time').value = selectedFlight.time || '';
+      document.getElementById('price').value = selectedFlight.price || '';
+    }
+
+    const form = document.getElementById('flightForm');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      const flightDetails = {
+        airline: selectedFlight.airline,
+        logo: selectedFlight.logo,
+        from: form.from.value,
+        to: form.to.value,
+        class: form.class.value,
+        time: form.time.value,
+        price: form.price.value,
+      };
+
+      localStorage.setItem('selectedFlightFull', JSON.stringify(flightDetails));
+      window.location.href = 'booking.html';
+    });
+  </script>
+</body>
+</html>
