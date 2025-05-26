@@ -101,17 +101,47 @@
       color: #b00020;
       border-radius: 8px;
     }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin: 20px auto;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
+
 <body class="results-bg">
   <main class="container">
     <h2>Available Flights</h2>
+    <a href="index.html" class="back-link">← Back to Search</a>
     <div id="flightList" class="flight-grid"></div>
   </main>
 
   <script>
+    // Get query params from URL
+    function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        from: params.get('origin'),
+        to: params.get('destination'),
+        departDate: params.get('departDate'),
+        returnDate: params.get('returnDate'),
+        flightType: params.get('flightType'),
+        budget: params.get('budget'),
+        flightClass: params.get('flightClass'),
+        passengerCount: params.get('passengerCount')
+      };
+    }
+
+    const searchData = getQueryParams();
     const container = document.getElementById("flightList");
-    const searchData = JSON.parse(localStorage.getItem('searchData'));
 
     const flights = [
       {
@@ -137,7 +167,12 @@
       }
     ];
 
-    if (!searchData || !searchData.from || !searchData.to || !searchData.class) {
+    const priceFormatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    });
+
+    if (!searchData.from || !searchData.to || !searchData.flightClass) {
       container.innerHTML = `<div class="error-message">⚠️ No search data found. Please go back and search for flights.</div>`;
     } else {
       flights.forEach(flight => {
@@ -150,9 +185,9 @@
           </div>
           <p><strong>Route:</strong> ${searchData.from} ➡ ${searchData.to}</p>
           <p><strong>Time:</strong> ${flight.time}</p>
-          <p><strong>Class:</strong> ${searchData.class}</p>
-          <p><strong>Price:</strong> <span class="price">$${flight.price}</span></p>
-          <button onclick="bookFlight(${flight.id})">Book Now</button>
+          <p><strong>Class:</strong> ${searchData.flightClass}</p>
+          <p><strong>Price:</strong> <span class="price">${priceFormatter.format(flight.price)}</span></p>
+          <button onclick="bookFlight(${flight.id})" aria-label="Book ${flight.airline} flight at ${flight.time}">Book Now</button>
         `;
         container.appendChild(card);
       });
