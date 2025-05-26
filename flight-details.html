@@ -2,187 +2,296 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Flight Details & Booking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkyConnect - Flight Details</title>
   <style>
-    body {
-      font-family: 'Outfit', sans-serif;
+    /* Reset & global */
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    body.details-bg {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #fff;
+    body {
+      background: #f7f9fa;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      color: #333;
     }
 
     .details-container {
       max-width: 700px;
-      margin: 40px auto;
-      background: #ffffff;
-      color: #000;
+      background: white;
       border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       padding: 30px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .details-container h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .flight-header {
+    .header {
       display: flex;
       align-items: center;
       gap: 20px;
-      justify-content: center;
-      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
     }
-
-    .airline-logo-img {
-      width: 60px;
-      height: auto;
-      border-radius: 6px;
+    .header img {
+      width: 100px;
       object-fit: contain;
     }
-
-    .info-group {
-      margin: 20px 0;
+    .header-text h1 {
+      font-size: 1.8rem;
+      color: #004d40;
+      margin-bottom: 5px;
+    }
+    .header-text p {
+      font-size: 1rem;
+      color: #666;
     }
 
-    .info-group h3 {
-      margin-bottom: 10px;
-      border-bottom: 2px solid #3498db;
-      display: inline-block;
+    .info-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 30px;
+      font-size: 1rem;
+    }
+    .info-label {
+      font-weight: 700;
+      color: #00796b;
+    }
+    .info-value {
+      color: #444;
     }
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: 600;
+    .description {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555;
+      background: #e0f2f1;
+      padding: 15px 20px;
+      border-radius: 8px;
     }
 
-    input[type="text"],
-    input[type="time"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      font-size: 16px;
+    .book-btn {
+      margin-top: 30px;
+      text-align: center;
     }
-
-    input[type="text"]:focus,
-    input[type="time"]:focus,
-    input[type="number"]:focus,
-    select:focus {
-      outline: none;
-      border-color: #3498db;
-      box-shadow: 0 0 8px #3498db;
-    }
-
-    .immigration-list {
-      margin-left: 20px;
-      color: #2c3e50;
-      font-weight: 600;
-    }
-
-    .back-button {
-      margin-top: 25px;
-      background: #3498db;
-      padding: 14px 20px;
-      border: none;
+    .book-btn a {
+      background-color: #00796b;
       color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      width: 100%;
-      transition: background 0.3s ease;
+      padding: 14px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(0,121,107,0.3);
+    }
+    .book-btn a:hover {
+      background-color: #004d40;
+      box-shadow: 0 6px 15px rgba(0,77,64,0.6);
     }
 
-    .back-button:hover {
-      background: #2980b9;
+    /* Responsive */
+    @media (max-width: 600px) {
+      .info-section {
+        grid-template-columns: 1fr;
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header img {
+        width: 80px;
+      }
     }
   </style>
 </head>
-<body class="details-bg">
-  <div class="details-container">
-    <div id="flightInfo" class="flight-header"></div>
-
-    <h2>Enter Your Flight Details</h2>
-    <form id="flightForm">
-      <label for="from">From:</label>
-      <input type="text" id="from" name="from" placeholder="Departure city" required />
-
-      <label for="to">To:</label>
-      <input type="text" id="to" name="to" placeholder="Destination city" required />
-
-      <label for="class">Class:</label>
-      <select id="class" name="class" required>
-        <option value="" disabled selected>Select class</option>
-        <option>Economy</option>
-        <option>Business</option>
-        <option>First Class</option>
-      </select>
-
-      <label for="time">Preferred Time:</label>
-      <input type="time" id="time" name="time" required />
-
-      <label for="price">Price ($):</label>
-      <input type="number" id="price" name="price" min="0" placeholder="Enter your budget" required />
-
-      <h3>Immigration & Travel Requirements</h3>
-      <ul class="immigration-list">
-        <li>✔ Valid passport with at least 6 months before expiration</li>
-        <li>✔ Visa (if required based on destination country)</li>
-        <li>✔ COVID-19 vaccination or testing documents (as required)</li>
-      </ul>
-
-      <button type="submit" class="back-button">Proceed to Booking</button>
-    </form>
+<body>
+  <div class="details-container" id="detailsContainer">
+    <!-- Flight details will be injected here by JS -->
   </div>
 
   <script>
+    const flightData = {
+      1: {
+        airline: "Delta Airlines",
+        logo: "https://1000logos.net/wp-content/uploads/2021/04/Delta-Air-Lines-logo.png",
+        route: "New York (JFK) → Los Angeles (LAX)",
+        departure: "10:00 AM",
+        arrival: "1:15 PM",
+        duration: "6h 15m",
+        stops: "Non-stop",
+        aircraft: "Boeing 757-200",
+        baggage: "2 checked bags (23kg each)",
+        description: "Delta Airlines offers premium onboard services including Wi-Fi, entertainment, and in-flight dining options."
+      },
+      2: {
+        airline: "Emirates",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/Emirates-logo.png",
+        route: "Dubai (DXB) → London (LHR)",
+        departure: "8:00 PM",
+        arrival: "12:00 AM (+1)",
+        duration: "7h 0m",
+        stops: "Non-stop",
+        aircraft: "Airbus A380",
+        baggage: "2 checked bags (32kg each)",
+        description: "Emirates is known for its luxurious cabins, world-class service, and extensive entertainment system."
+      },
+      3: {
+        airline: "Qatar Airways",
+        logo: "https://1000logos.net/wp-content/uploads/2021/04/Qatar-Airways-logo.png",
+        route: "Doha (DOH) → New York (JFK)",
+        departure: "2:30 PM",
+        arrival: "7:30 PM",
+        duration: "14h 0m",
+        stops: "Non-stop",
+        aircraft: "Boeing 777-300ER",
+        baggage: "2 checked bags (30kg each)",
+        description: "Qatar Airways offers award-winning service, with spacious seats and gourmet meals."
+      },
+      4: {
+        airline: "Bangkok Airways",
+        logo: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Bangkok_Airways_logo.svg/1200px-Bangkok_Airways_logo.svg.png",
+        route: "Bangkok (BKK) → Phuket (HKT)",
+        departure: "9:15 AM",
+        arrival: "10:30 AM",
+        duration: "1h 15m",
+        stops: "Non-stop",
+        aircraft: "ATR 72-600",
+        baggage: "1 checked bag (20kg)",
+        description: "Bangkok Airways is a boutique airline known for its excellent regional service and lounge access."
+      },
+      5: {
+        airline: "Air Canada",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/Air-Canada-logo.png",
+        route: "Toronto (YYZ) → Vancouver (YVR)",
+        departure: "7:00 AM",
+        arrival: "9:20 AM",
+        duration: "5h 20m",
+        stops: "Non-stop",
+        aircraft: "Boeing 737 MAX 8",
+        baggage: "2 checked bags (23kg each)",
+        description: "Air Canada offers comfortable flights across Canada and internationally with great in-flight amenities."
+      },
+      6: {
+        airline: "AirAsia",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/AirAsia_logo.svg/2560px-AirAsia_logo.svg.png",
+        route: "Kuala Lumpur (KUL) → Singapore (SIN)",
+        departure: "3:45 PM",
+        arrival: "4:50 PM",
+        duration: "1h 5m",
+        stops: "Non-stop",
+        aircraft: "Airbus A320",
+        baggage: "1 checked bag (15kg)",
+        description: "AirAsia is a budget airline famous for its affordable fares and extensive Asian network."
+      },
+      7: {
+        airline: "China Southern Airlines",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/China-Southern-Airlines-logo.png",
+        route: "Guangzhou (CAN) → Beijing (PEK)",
+        departure: "11:00 AM",
+        arrival: "1:30 PM",
+        duration: "2h 30m",
+        stops: "Non-stop",
+        aircraft: "Boeing 737-800",
+        baggage: "2 checked bags (23kg each)",
+        description: "China Southern Airlines is the largest airline in China, offering reliable domestic and international flights."
+      },
+      8: {
+        airline: "Singapore Airlines",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/Singapore-Airlines-logo.png",
+        route: "Singapore (SIN) → Sydney (SYD)",
+        departure: "10:00 PM",
+        arrival: "8:00 AM (+1)",
+        duration: "8h 0m",
+        stops: "Non-stop",
+        aircraft: "Airbus A350-900",
+        baggage: "2 checked bags (30kg each)",
+        description: "Singapore Airlines is renowned for excellent service, comfortable seating, and in-flight entertainment."
+      },
+      9: {
+        airline: "Lufthansa",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/Lufthansa-logo.png",
+        route: "Frankfurt (FRA) → New York (JFK)",
+        departure: "1:00 PM",
+        arrival: "4:00 PM",
+        duration: "8h 0m",
+        stops: "Non-stop",
+        aircraft: "Airbus A350-900",
+        baggage: "2 checked bags (23kg each)",
+        description: "Lufthansa is Germany’s flagship carrier with premium services and extensive global coverage."
+      },
+      10: {
+        airline: "British Airways",
+        logo: "https://1000logos.net/wp-content/uploads/2017/06/British-Airways-logo.png",
+        route: "London (LHR) → Dubai (DXB)",
+        departure: "9:00 AM",
+        arrival: "7:00 PM",
+        duration: "7h 0m",
+        stops: "Non-stop",
+        aircraft: "Boeing 777-300ER",
+        baggage: "2 checked bags (23kg each)",
+        description: "British Airways offers a comfortable and premium travel experience across Europe and beyond."
+      }
+    };
+
+    // Get the selected flight from localStorage
     const selectedFlight = JSON.parse(localStorage.getItem('selectedFlight'));
-    const searchData = JSON.parse(localStorage.getItem('searchData'));
 
-    if (!selectedFlight || !searchData) {
-      alert("Missing flight or search data. Redirecting...");
-      window.location.href = "results.html";
-    } else {
-      const flightInfoDiv = document.getElementById('flightInfo');
-      flightInfoDiv.innerHTML = `
-        <img src="${selectedFlight.logo}" alt="${selectedFlight.airline} logo" class="airline-logo-img" />
-        <h2>${selectedFlight.airline}</h2>
+    const container = document.getElementById('detailsContainer');
+
+    if (!selectedFlight || !flightData[selectedFlight.id]) {
+      container.innerHTML = `
+        <p style="text-align:center; font-size:1.2rem; color:#777;">No flight details available. Please select a flight from the results page.</p>
+        <p style="text-align:center; margin-top:20px;">
+          <a href="results.html" style="color:#00796b; text-decoration:underline;">Go back to Results</a>
+        </p>
       `;
+    } else {
+      const data = flightData[selectedFlight.id];
+      container.innerHTML = `
+        <div class="header">
+          <img src="${data.logo}" alt="${data.airline} logo" />
+          <div class="header-text">
+            <h1>${data.airline}</h1>
+            <p><strong>Route:</strong> ${data.route}</p>
+          </div>
+        </div>
 
-      document.getElementById('from').value = searchData.from;
-      document.getElementById('to').value = searchData.to;
-      document.getElementById('class').value = searchData.class;
-      document.getElementById('time').value = selectedFlight.time || '';
-      document.getElementById('price').value = selectedFlight.price || '';
+        <div class="info-section">
+          <div><span class="info-label">Departure Time:</span></div>
+          <div class="info-value">${data.departure}</div>
+
+          <div><span class="info-label">Arrival Time:</span></div>
+          <div class="info-value">${data.arrival}</div>
+
+          <div><span class="info-label">Duration:</span></div>
+          <div class="info-value">${data.duration}</div>
+
+          <div><span class="info-label">Stops:</span></div>
+          <div class="info-value">${data.stops}</div>
+
+          <div><span class="info-label">Aircraft:</span></div>
+          <div class="info-value">${data.aircraft}</div>
+
+          <div><span class="info-label">Baggage Allowance:</span></div>
+          <div class="info-value">${data.baggage}</div>
+        </div>
+
+        <div class="description">${data.description}</div>
+
+        <div class="book-btn">
+          <a href="BookingConfirmation.html">Book Now</a>
+        </div>
+      `;
     }
-
-    const form = document.getElementById('flightForm');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-
-      const flightDetails = {
-        airline: selectedFlight.airline,
-        logo: selectedFlight.logo,
-        from: form.from.value,
-        to: form.to.value,
-        class: form.class.value,
-        time: form.time.value,
-        price: form.price.value,
-      };
-
-      localStorage.setItem('selectedFlightFull', JSON.stringify(flightDetails));
-      window.location.href = 'booking.html';
-    });
   </script>
 </body>
 </html>

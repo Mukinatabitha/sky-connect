@@ -2,201 +2,152 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flight Results - SkyConnect</title>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <title>Flight Results</title>
   <style>
-    body {
-      font-family: 'Outfit', sans-serif;
+    /* Reset and global styles */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body.results-bg {
-      background: linear-gradient(to right, #1e3c72, #2a5298);
-      color: #fff;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      min-height: 100vh;
+      padding: 40px 20px;
     }
 
-    main.container {
-      max-width: 960px;
-      background: #ffffff;
-      margin: 40px auto;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      color: #000;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    h2 {
+    .section-title {
       text-align: center;
-      margin-bottom: 25px;
-      font-weight: 600;
-      font-size: 28px;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #004d40;
     }
 
     .flight-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-top: 20px;
+      gap: 20px;
     }
 
     .flight-card {
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      padding: 20px;
+      background: #ffffff;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
     }
 
     .flight-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
     }
 
     .flight-header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
     .airline-logo-img {
-      width: 50px;
+      width: 100px;
       height: auto;
-      border-radius: 4px;
       object-fit: contain;
+      margin-bottom: 10px;
     }
 
-    .price {
-      color: #27ae60;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    button {
-      margin-top: 12px;
-      padding: 10px;
-      width: 100%;
+    .details-btn {
+      padding: 10px 20px;
+      background-color: #00796b;
+      color: #ffffff;
       border: none;
-      background: #3498db;
-      color: white;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 16px;
-      transition: background 0.25s ease;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover {
-      background: #2c80b4;
-    }
-
-    .error-message {
-      text-align: center;
-      font-size: 18px;
-      padding: 20px;
-      background: #ffe8e8;
-      color: #b00020;
-      border-radius: 8px;
-    }
-
-    .back-link {
-      display: block;
-      text-align: center;
-      margin: 20px auto;
-      color: #fff;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .back-link:hover {
-      text-decoration: underline;
+    .details-btn:hover {
+      background-color: #004d40;
     }
   </style>
 </head>
-
 <body class="results-bg">
-  <main class="container">
-    <h2>Available Flights</h2>
-    <a href="index.html" class="back-link">← Back to Search</a>
+  <div class="container">
+    <h2 class="section-title">Available Flights</h2>
     <div id="flightList" class="flight-grid"></div>
-  </main>
+  </div>
 
   <script>
-    // Get query params from URL
-    function getQueryParams() {
-      const params = new URLSearchParams(window.location.search);
-      return {
-        from: params.get('origin'),
-        to: params.get('destination'),
-        departDate: params.get('departDate'),
-        returnDate: params.get('returnDate'),
-        flightType: params.get('flightType'),
-        budget: params.get('budget'),
-        flightClass: params.get('flightClass'),
-        passengerCount: params.get('passengerCount')
-      };
-    }
-
-    const searchData = getQueryParams();
-    const container = document.getElementById("flightList");
-
     const flights = [
       {
         id: 1,
         airline: "Delta Airlines",
-        logo: "https://1000logos.net/wp-content/uploads/2021/04/Delta-Air-Lines-logo.png",
-        time: "08:00 - 11:00",
-        price: 250
       },
       {
         id: 2,
         airline: "Emirates",
-        logo: "https://1000logos.net/wp-content/uploads/2017/06/Emirates-logo.png",
-        time: "13:00 - 16:00",
-        price: 320
       },
       {
         id: 3,
         airline: "Qatar Airways",
-        logo: "https://1000logos.net/wp-content/uploads/2021/04/Qatar-Airways-logo.png",
-        time: "18:00 - 21:00",
-        price: 290
+      },
+      {
+        id: 4,
+        airline: "Bangkok Airways",
+      },
+      {
+        id: 5,
+        airline: "Air Canada",
+      },
+      {
+        id: 6,
+        airline: "AirAsia",
+      },
+      {
+        id: 7,
+        airline: "China Southern Airlines",
+      },
+      {
+        id: 8,
+        airline: "Singapore Airlines",
+      },
+      {
+        id: 9,
+        airline: "Lufthansa",
+      },
+      {
+        id: 10,
+        airline: "British Airways",
       }
     ];
 
-    const priceFormatter = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
+    const container = document.getElementById("flightList");
+
+    flights.forEach(flight => {
+      const card = document.createElement("div");
+      card.className = "flight-card";
+      card.innerHTML = `
+        <div class="flight-header">
+          <img src="${flight.logo}" alt="${flight.airline}" class="airline-logo-img" />
+          <h3>${flight.airline}</h3>
+        </div>
+        <button class="details-btn" onclick="showDetails(${flight.id})">View Details</button>
+      `;
+      container.appendChild(card);
     });
 
-    if (!searchData.from || !searchData.to || !searchData.flightClass) {
-      container.innerHTML = `<div class="error-message">⚠️ No search data found. Please go back and search for flights.</div>`;
-    } else {
-      flights.forEach(flight => {
-        const card = document.createElement("div");
-        card.className = "flight-card";
-        card.innerHTML = `
-          <div class="flight-header">
-            <img src="${flight.logo}" alt="${flight.airline} logo" class="airline-logo-img" />
-            <h3>${flight.airline}</h3>
-          </div>
-          <p><strong>Route:</strong> ${searchData.from} ➡ ${searchData.to}</p>
-          <p><strong>Time:</strong> ${flight.time}</p>
-          <p><strong>Class:</strong> ${searchData.flightClass}</p>
-          <p><strong>Price:</strong> <span class="price">${priceFormatter.format(flight.price)}</span></p>
-          <button onclick="bookFlight(${flight.id})" aria-label="Book ${flight.airline} flight at ${flight.time}">Book Now</button>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function bookFlight(id) {
-      const selected = flights.find(f => f.id === id);
-      localStorage.setItem("selectedFlight", JSON.stringify(selected));
-      window.location.href = "booking.html";
+    function showDetails(id) {
+      const selectedFlight = flights.find(f => f.id === id);
+      localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
+      window.location.href = 'flight-details.html';
     }
   </script>
 </body>

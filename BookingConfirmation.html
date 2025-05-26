@@ -65,4 +65,32 @@
     &copy; 2025 SkyConnect.
   </footer>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const bookingData = {
+      bookingReference: 'SKY2023-5A8B2C',
+      flight: 'Nairobi (NBO) to New York (JFK)',
+      flightDate: '2025-11-15',
+      passengerName: 'Natalie Abwoga',
+      totalPaid: 161427.00
+    };
+
+    fetch('http://localhost:8080/api/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(bookingData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to store booking');
+      }
+      return response.json();
+    })
+    .then(data => console.log('Booking saved:', data))
+    .catch(error => console.error('Error:', error));
+  });
+</script>
+
 </html>
