@@ -1,16 +1,24 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Us | SkyConnect</title>
   <link rel="stylesheet" href="./ContactUsPage.css">
+  <style>
+    .thank-you {
+      display: none;
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
 
   <header>
     <div class="header-container">
-           <img src="https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/skyconnect-logo.png" alt="Sky Connect Logo" class="header-logo">
+      <img src="https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/skyconnect-logo.png" alt="Sky Connect Logo" class="header-logo">
       <span class="header-title">SkyConnect</span>
     </div>
   </header>
@@ -26,7 +34,7 @@
   <main>
     <section class="form-section">
       <h2>Get in Touch</h2>
-      <form action="/send-message" method="POST">
+      <form id="contact-form">
         <div>
           <label for="name">Full Name</label>
           <input type="text" id="name" name="name" required>
@@ -42,6 +50,10 @@
         <button type="submit">Send Message</button>
       </form>
 
+      <div class="thank-you" id="thank-you-message">
+        Thank you for your message! We'll get back to you shortly.
+      </div>
+
       <div class="contact-info">
         <h3>Other Ways to Reach Us</h3>
         <p>📍 Nairobi, Kenya</p>
@@ -56,12 +68,18 @@
         <h4>Back</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
-          </ul>
-          </div>
+        </ul>
+    </div>
     &copy; 2025 SkyConnect.
   </footer>
 
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Stop actual form submission
+      document.getElementById('thank-you-message').style.display = 'block';
+      this.reset(); // Clear the form
+    });
+  </script>
+
 </body>
 </html>
-
-
