@@ -18,7 +18,7 @@ SkyConnect is a flight booking application that allows users to search for fligh
 
 ## Getting Started
 1. Clone the repository.
-2. Open `index.html` in your web browser.
+2. Open `Landingpage.java` in your web browser.
 3. Follow the on-screen instructions to search and book flights.
 
 ## Future Improvements
