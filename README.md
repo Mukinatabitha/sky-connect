@@ -14,7 +14,7 @@ SkyConnect is a flight booking application that allows users to search for fligh
 - CSS
 - JavaScript
 - Java
-- Local Storage for user data
+- MySQL Storage for user data
 
 ## Getting Started
 1. Clone the repository.
