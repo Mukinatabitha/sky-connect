@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Confirm Payment - SkyConnect</title>
+    <title>Payment - SkyConnect</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="payment-bg">
     <header class="header payment-header">
@@ -34,29 +35,33 @@
                     <label for="paymentMethod">Payment Method</label>
                     <div class="payment-options">
                         <label class="payment-option">
-                            <input type="radio" name="paymentMethod" value="Visa" />
-                            <img src="visa-logo.png" alt="Visa" />
+                            <input type="radio" name="paymentMethod" value="Visa" id="visa" required>
+                            <img src="visa-logo.png" alt="Visa payment method">
                             <span>Visa</span>
                         </label>
                         <label class="payment-option">
-                            <input type="radio" name="paymentMethod" value="Mastercard" />
-                            <img src="mastercard-logo.png" alt="Mastercard" />
+                            <input type="radio" name="paymentMethod" value="Mastercard" id="mastercard">
+                            <img src="mastercard-logo.png" alt="Mastercard payment method">
                             <span>Mastercard</span>
                         </label>
                         <label class="payment-option">
-                            <input type="radio" name="paymentMethod" value="Mobile Money" />
-                            <img src="mobile-money-logo.png" alt="Mobile Money" />
+                            <input type="radio" name="paymentMethod" value="Mobile Money" id="mobile-money">
+                            <img src="mobile-money-logo.png" alt="Mobile Money payment method">
                             <span>Mobile Money</span>
                         </label>
                     </div>
+                    <div id="paymentMethodError" class="error-message" aria-live="polite"></div>
                 </div>
             </div>
 
-            <div id="cardDetails" class="payment-section">
+            <div id="cardDetails" class="payment-section" aria-hidden="true">
                 <div class="form-group">
                     <label for="cardName">Name on Card</label>
-                    <input type="text" id="cardName" name="cardName" required pattern="[A-Za-z ]+" 
-                           title="Please enter a valid name (letters and spaces only)" />
+                    <input type="text" id="cardName" name="cardName" required 
+                           pattern="[A-Za-z ]+" 
+                           title="Please enter a valid name (letters and spaces only)" 
+                           aria-invalid="false" aria-describedby="cardNameError">
+                    <div id="cardNameError" class="error-message" aria-live="polite"></div>
                 </div>
 
                 <div class="form-group">
@@ -64,8 +69,10 @@
                     <div class="card-input-wrapper">
                         <input type="text" id="cardNumber" name="cardNumber" maxlength="19" 
                                placeholder="1234 5678 9012 3456" required 
-                               pattern="[0-9 ]{13,19}" title="Please enter a valid card number" />
+                               pattern="[0-9 ]{13,19}" title="Please enter a valid card number" 
+                               aria-invalid="false" aria-describedby="cardNumberError">
                         <span class="card-type-icon"></span>
+                        <div id="cardNumberError" class="error-message" aria-live="polite"></div>
                     </div>
                 </div>
 
@@ -73,23 +80,29 @@
                     <div class="form-group">
                         <label for="expiry">Expiry Date</label>
                         <input type="text" id="expiry" name="expiry" maxlength="5" 
-                               placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])/([0-9]{2})" 
-                               title="Please enter a valid expiry date (MM/YY)" />
+                               placeholder="MM/YY" required 
+                               pattern="(0[1-9]|1[0-2])/([0-9]{2})" 
+                               title="Please enter a valid expiry date (MM/YY)" 
+                               aria-invalid="false" aria-describedby="expiryError">
+                        <div id="expiryError" class="error-message" aria-live="polite"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="cvv">CVV</label>
                         <div class="cvv-input-wrapper">
                             <input type="password" id="cvv" name="cvv" maxlength="4" 
-                                   placeholder="•••" required pattern="[0-9]{3,4}" 
-                                   title="Please enter a valid CVV" />
+                                   placeholder="•••" required 
+                                   pattern="[0-9]{3,4}" 
+                                   title="Please enter a valid CVV" 
+                                   aria-invalid="false" aria-describedby="cvvError">
                             <span class="cvv-info-icon" title="3 or 4 digits on the back of your card">ℹ</span>
+                            <div id="cvvError" class="error-message" aria-live="polite"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="mobileMoneyDetails" class="payment-section">
+            <div id="mobileMoneyDetails" class="payment-section" aria-hidden="true">
                 <div class="form-group">
                     <label for="phoneNumber">Phone Number</label>
                     <div class="phone-input-wrapper">
@@ -97,7 +110,9 @@
                         <input type="tel" id="phoneNumber" name="phoneNumber" required 
                                pattern="^(07[0-9]{8}|[0-9]{9})$" 
                                placeholder="7XXXXXXXX" 
-                               title="Please enter a valid Kenyan phone number" />
+                               title="Please enter a valid Kenyan phone number" 
+                               aria-invalid="false" aria-describedby="phoneNumberError">
+                        <div id="phoneNumberError" class="error-message" aria-live="polite"></div>
                     </div>
                 </div>
 
@@ -106,25 +121,28 @@
                     <div class="otp-input-wrapper">
                         <input type="text" id="otp" name="otp" maxlength="6" required 
                                pattern="[0-9]{6}" 
-                               title="Please enter the 6-digit OTP sent to your phone" />
+                               title="Please enter the 6-digit OTP sent to your phone" 
+                               aria-invalid="false" aria-describedby="otpError">
                         <p id="otpTimer" class="otp-timer"></p>
                         <button type="button" id="resendOtp" class="resend-btn" disabled>Resend OTP</button>
+                        <div id="otpError" class="error-message" aria-live="polite"></div>
                     </div>
                 </div>
             </div>
 
             <input type="hidden" id="selectedSeatsInput" name="selectedSeats" />
-            <button type="button" id="payNowBtn" class="payment-btn">
+            <button type="submit" id="payNowBtn" class="payment-btn" 
+                    aria-label="Confirm payment and proceed to booking confirmation">
                 <span class="btn-text">Confirm Payment</span>
                 <span class="loading-spinner"></span>
             </button>
         </form>
     </div>
 
-    <div class="modal-overlay" id="confirmModal">
+    <div class="modal-overlay" id="confirmModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
         <div class="modal">
             <div class="modal-content">
-                <h3>Confirm Payment</h3>
+                <h3 id="modalTitle">Confirm Payment</h3>
                 <p>Are you sure you want to proceed with the payment?</p>
                 <div class="payment-summary">
                     <div class="summary-item">
@@ -137,30 +155,236 @@
                     </div>
                 </div>
                 <div class="modal-buttons">
-                    <button class="btn-confirm" id="confirmYes">Confirm</button>
-                    <button class="btn-cancel" id="confirmNo">Cancel</button>
+                    <button class="btn-confirm" id="confirmYes" aria-label="Confirm payment">Confirm</button>
+                    <button class="btn-cancel" id="confirmNo" aria-label="Cancel payment">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
-    document.getElementById('paymentForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        // Show loading state
-        const payBtn = document.getElementById('payNowBtn');
-        payBtn.classList.add('loading');
-        
-        // Simulate payment processing
-        setTimeout(() => {
-            // Get flight details from session storage
-            const flightDetails = JSON.parse(sessionStorage.getItem('flightDetails'));
-            
-            // Store payment confirmation
-            sessionStorage.setItem('paymentConfirmed', 'true');
-            
-            // Redirect to booking confirmation
-            window.location.href = 'BookingConfirmation.html';
-        }, 2000);
-    });
+
+    <div class="modal-overlay" id="errorModal" aria-hidden="true" role="dialog" aria-labelledby="errorTitle">
+        <div class="modal">
+            <div class="modal-content">
+                <h3 id="errorTitle">Payment Error</h3>
+                <p id="errorMessage"></p>
+                <button class="btn-primary" id="errorOk">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentForm = document.getElementById('paymentForm');
+            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+            const cardDetails = document.getElementById('cardDetails');
+            const mobileMoneyDetails = document.getElementById('mobileMoneyDetails');
+            const otpGroup = document.getElementById('otpGroup');
+            const resendOtp = document.getElementById('resendOtp');
+            const otpTimer = document.getElementById('otpTimer');
+            const confirmModal = document.getElementById('confirmModal');
+            const errorModal = document.getElementById('errorModal');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorOk = document.getElementById('errorOk');
+            const confirmYes = document.getElementById('confirmYes');
+            const confirmNo = document.getElementById('confirmNo');
+            const payNowBtn = document.getElementById('payNowBtn');
+
+            // Payment method selection
+            paymentMethodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'Mobile Money') {
+                        cardDetails.setAttribute('aria-hidden', 'true');
+                        mobileMoneyDetails.setAttribute('aria-hidden', 'false');
+                        otpGroup.setAttribute('aria-hidden', 'true');
+                        resendOtp.disabled = true;
+                        otpTimer.textContent = '';
+                    } else {
+                        cardDetails.setAttribute('aria-hidden', 'false');
+                        mobileMoneyDetails.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            });
+
+            // OTP functionality
+            let otpTimeout;
+            function startOTPTimer() {
+                const time = 300; // 5 minutes
+                let remaining = time;
+                
+                function updateTimer() {
+                    const minutes = Math.floor(remaining / 60);
+                    const seconds = remaining % 60;
+                    otpTimer.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (remaining > 0) {
+                        remaining--;
+                        otpTimeout = setTimeout(updateTimer, 1000);
+                    } else {
+                        resendOtp.disabled = false;
+                    }
+                }
+                
+                updateTimer();
+            }
+
+            resendOtp.addEventListener('click', function() {
+                // Implement OTP resend logic here
+                startOTPTimer();
+            });
+
+            // Form validation
+            function validateForm() {
+                let isValid = true;
+                const errors = [];
+
+                // Validate payment method
+                if (!document.querySelector('input[name="paymentMethod"]:checked')) {
+                    errors.push('Please select a payment method');
+                    isValid = false;
+                }
+
+                // Validate card details if card payment selected
+                if (document.querySelector('input[name="paymentMethod"]:checked').value !== 'Mobile Money') {
+                    const cardName = document.getElementById('cardName');
+                    const cardNumber = document.getElementById('cardNumber');
+                    const expiry = document.getElementById('expiry');
+                    const cvv = document.getElementById('cvv');
+
+                    if (!cardName.value.trim()) {
+                        errors.push('Please enter your name on the card');
+                        isValid = false;
+                    }
+
+                    if (!cardNumber.value.trim()) {
+                        errors.push('Please enter your card number');
+                        isValid = false;
+                    }
+
+                    if (!expiry.value.trim()) {
+                        errors.push('Please enter the expiry date');
+                        isValid = false;
+                    }
+
+                    if (!cvv.value.trim()) {
+                        errors.push('Please enter the CVV');
+                        isValid = false;
+                    }
+                } else {
+                    const phoneNumber = document.getElementById('phoneNumber');
+                    const otp = document.getElementById('otp');
+
+                    if (!phoneNumber.value.trim()) {
+                        errors.push('Please enter your phone number');
+                        isValid = false;
+                    }
+
+                    if (!otpGroup.getAttribute('aria-hidden') && !otp.value.trim()) {
+                        errors.push('Please enter the OTP');
+                        isValid = false;
+                    }
+                }
+
+                // Display errors
+                if (errors.length > 0) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.textContent = errors.join('\n');
+                    errorDiv.setAttribute('aria-live', 'assertive');
+                    paymentForm.insertBefore(errorDiv, paymentForm.firstChild);
+                    setTimeout(() => errorDiv.remove(), 5000);
+                }
+
+                return isValid;
+            }
+
+            // Payment processing
+            paymentForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                
+                if (!validateForm()) return;
+
+                try {
+                    // Show loading state
+                    payNowBtn.classList.add('loading');
+                    payNowBtn.disabled = true;
+
+                    // Get flight details
+                    const flightDetails = JSON.parse(sessionStorage.getItem('flightDetails'));
+                    const amount = flightDetails.totalPrice;
+
+                    // Create payment intent
+                    const response = await fetch('/create-payment-intent', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            amount: amount * 100, // Convert to cents
+                            currency: 'usd',
+                            payment_method_types: ['card'],
+                        }),
+                    });
+
+                    const data = await response.json();
+                    const clientSecret = data.clientSecret;
+
+                    // Confirm payment
+                    const result = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: cardNumber,
+                            billing_details: {
+                                name: cardName.value,
+                            },
+                        },
+                    });
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+
+                    // Store payment confirmation
+                    sessionStorage.setItem('paymentConfirmed', 'true');
+                    
+                    // Redirect to booking confirmation
+                    window.location.href = 'BookingConfirmation.html';
+                } catch (error) {
+                    // Show error modal
+                    errorMessage.textContent = error.message || 'An error occurred during payment processing';
+                    errorModal.removeAttribute('aria-hidden');
+                    errorModal.style.display = 'block';
+                } finally {
+                    payNowBtn.classList.remove('loading');
+                    payNowBtn.disabled = false;
+                }
+            });
+
+            // Modal handlers
+            confirmYes.addEventListener('click', function() {
+                paymentForm.submit();
+            });
+
+            confirmNo.addEventListener('click', function() {
+                confirmModal.setAttribute('aria-hidden', 'true');
+                confirmModal.style.display = 'none';
+            });
+
+            errorOk.addEventListener('click', function() {
+                errorModal.setAttribute('aria-hidden', 'true');
+                errorModal.style.display = 'none';
+            });
+
+            // Close modals when clicking outside
+            document.addEventListener('click', function(event) {
+                if (event.target === confirmModal) {
+                    confirmModal.setAttribute('aria-hidden', 'true');
+                    confirmModal.style.display = 'none';
+                }
+                if (event.target === errorModal) {
+                    errorModal.setAttribute('aria-hidden', 'true');
+                    errorModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
