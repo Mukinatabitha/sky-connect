@@ -142,3 +142,351 @@ button[type="submit"]:hover {
   background-color: #e74c3c;
   color: #fff;
 }
+
+
+/* Add responsive design improvements */
+@media (max-width: 768px) {
+    .payment-container {
+        padding: 20px;
+        margin: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Add loading state styles */
+.loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #ffffff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: loading 0.8s linear infinite;
+}
+
+@keyframes loading {
+    to { transform: rotate(360deg); }
+}
+
+/* Payment Page Styles */
+.payment-bg {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.payment-header {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-container {
+    max-width: 800px;
+    margin: 100px auto 50px;
+    padding: 2rem;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.payment-progress {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.progress-step {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+    position: relative;
+    color: #666;
+}
+
+.progress-step.active {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.progress-step::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background: #ddd;
+    z-index: -1;
+}
+
+.progress-step:last-child::after {
+    display: none;
+}
+
+.payment-methods {
+    margin-bottom: 2rem;
+}
+
+.payment-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.payment-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.payment-option:hover {
+    border-color: #3498db;
+    transform: translateY(-2px);
+}
+
+.payment-option input[type="radio"] {
+    display: none;
+}
+
+.payment-option input[type="radio"]:checked + img {
+    border-color: #3498db;
+}
+
+.payment-option img {
+    width: 60px;
+    height: auto;
+    margin-bottom: 0.5rem;
+}
+
+.card-input-wrapper,
+.cvv-input-wrapper,
+.phone-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.card-type-icon,
+.cvv-info-icon {
+    position: absolute;
+    right: 10px;
+    color: #666;
+    cursor: help;
+}
+
+.country-code {
+    background: #f5f5f5;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.phone-input-wrapper input {
+    border-radius: 0 4px 4px 0;
+}
+
+.otp-input-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.otp-timer {
+    color: #666;
+    margin: 0;
+}
+
+.resend-btn {
+    padding: 0.5rem 1rem;
+    background: none;
+    border: 1px solid #3498db;
+    color: #3498db;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.resend-btn:not(:disabled):hover {
+    background: #3498db;
+    color: white;
+}
+
+.resend-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.payment-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.loading-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.payment-btn.loading .btn-text {
+    visibility: hidden;
+}
+
+.payment-btn.loading .loading-spinner {
+    display: block;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.payment-summary {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.btn-confirm,
+.btn-cancel {
+    padding: 0.75rem 2rem;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-confirm {
+    background: #2ecc71;
+    color: white;
+}
+
+.btn-cancel {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-confirm:hover,
+.btn-cancel:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .payment-container {
+        margin: 80px 1rem 2rem;
+        padding: 1rem;
+    }
+
+    .payment-options {
+        flex-direction: column;
+    }
+
+    .payment-option {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .modal {
+        width: 95%;
+        padding: 1rem;
+    }
+}
