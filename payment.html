@@ -1,51 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Payment</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Payment - SkyConnect</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body class="payment-bg">
-  <div class="payment-container">
-    <h2>Payment Information</h2>
-    <form id="paymentForm">
-      <div class="form-group">
-        <label for="cardName">Name on Card</label>
-        <input type="text" id="cardName" required />
-      </div>
-
-      <div class="form-group">
-        <label for="cardNumber">Card Number</label>
-        <input type="text" id="cardNumber" maxlength="19" placeholder="1234 5678 9012 3456" required />
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="expiry">Expiry Date</label>
-          <input type="text" id="expiry" maxlength="5" placeholder="MM/YY" required />
+    <header class="header payment-header">
+        <div class="container nav">
+            <div class="logo">
+                <img src="skyconnect-logo.png" alt="SkyConnect Logo" class="logo-img">
+                <span>SkyConnect</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="ContactUsPage.html">Contact</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="form-group">
-          <label for="cvv">CVV</label>
-          <input type="password" id="cvv" maxlength="4" required />
+    <div class="payment-container">
+        <h2>Payment Information</h2>
+        <div class="payment-progress">
+            <div class="progress-step active">Select Method</div>
+            <div class="progress-step">Enter Details</div>
+            <div class="progress-step">Confirm</div>
         </div>
-      </div>
+        <form id="paymentForm" action="book" method="post">
+            <div class="payment-methods">
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="Visa" />
+                            <img src="visa-logo.png" alt="Visa" />
+                            <span>Visa</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="Mastercard" />
+                            <img src="mastercard-logo.png" alt="Mastercard" />
+                            <span>Mastercard</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="paymentMethod" value="Mobile Money" />
+                            <img src="mobile-money-logo.png" alt="Mobile Money" />
+                            <span>Mobile Money</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-      <button type="submit">Confirm Payment</button>
-    </form>
-  </div>
+            <div id="cardDetails" class="payment-section">
+                <div class="form-group">
+                    <label for="cardName">Name on Card</label>
+                    <input type="text" id="cardName" name="cardName" required pattern="[A-Za-z ]+" 
+                           title="Please enter a valid name (letters and spaces only)" />
+                </div>
 
-  <!-- Modal -->
-  <div class="modal-overlay" id="confirmModal">
-    <div class="modal">
-      <p>Are you sure you want to proceed with the payment?</p>
-      <div class="modal-buttons">
-        <button class="btn-confirm" id="confirmYes">Yes</button>
-        <button class="btn-cancel" id="confirmNo">No</button>
-      </div>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <div class="card-input-wrapper">
+                        <input type="text" id="cardNumber" name="cardNumber" maxlength="19" 
+                               placeholder="1234 5678 9012 3456" required 
+                               pattern="[0-9 ]{13,19}" title="Please enter a valid card number" />
+                        <span class="card-type-icon"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" name="expiry" maxlength="5" 
+                               placeholder="MM/YY" required pattern="(0[1-9]|1[0-2])/([0-9]{2})" 
+                               title="Please enter a valid expiry date (MM/YY)" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <div class="cvv-input-wrapper">
+                            <input type="password" id="cvv" name="cvv" maxlength="4" 
+                                   placeholder="•••" required pattern="[0-9]{3,4}" 
+                                   title="Please enter a valid CVV" />
+                            <span class="cvv-info-icon" title="3 or 4 digits on the back of your card">ℹ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mobileMoneyDetails" class="payment-section">
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number</label>
+                    <div class="phone-input-wrapper">
+                        <span class="country-code">+254</span>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required 
+                               pattern="^(07[0-9]{8}|[0-9]{9})$" 
+                               placeholder="7XXXXXXXX" 
+                               title="Please enter a valid Kenyan phone number" />
+                    </div>
+                </div>
+
+                <div class="form-group" id="otpGroup">
+                    <label for="otp">Enter OTP</label>
+                    <div class="otp-input-wrapper">
+                        <input type="text" id="otp" name="otp" maxlength="6" required 
+                               pattern="[0-9]{6}" 
+                               title="Please enter the 6-digit OTP sent to your phone" />
+                        <p id="otpTimer" class="otp-timer"></p>
+                        <button type="button" id="resendOtp" class="resend-btn" disabled>Resend OTP</button>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="selectedSeatsInput" name="selectedSeats" />
+            <button type="button" id="payNowBtn" class="payment-btn">
+                <span class="btn-text">Confirm Payment</span>
+                <span class="loading-spinner"></span>
+            </button>
+        </form>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal">
+            <div class="modal-content">
+                <h3>Confirm Payment</h3>
+                <p>Are you sure you want to proceed with the payment?</p>
+                <div class="payment-summary">
+                    <div class="summary-item">
+                        <span>Amount:</span>
+                        <span id="paymentAmount">$XXX.XX</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Payment Method:</span>
+                        <span id="paymentMethodSummary"></span>
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-confirm" id="confirmYes">Confirm</button>
+                    <button class="btn-cancel" id="confirmNo">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    document.getElementById('paymentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Show loading state
+        const payBtn = document.getElementById('payNowBtn');
+        payBtn.classList.add('loading');
+        
+        // Simulate payment processing
+        setTimeout(() => {
+            // Get flight details from session storage
+            const flightDetails = JSON.parse(sessionStorage.getItem('flightDetails'));
+            
+            // Store payment confirmation
+            sessionStorage.setItem('paymentConfirmed', 'true');
+            
+            // Redirect to booking confirmation
+            window.location.href = 'BookingConfirmation.html';
+        }, 2000);
+    });
 </body>
 </html>
