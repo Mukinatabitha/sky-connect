@@ -490,3 +490,64 @@ button[type="submit"]:hover {
         padding: 1rem;
     }
 }
+
+.stripe-card-element {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.payment-btn.loading .btn-text {
+  display: none;
+}
+.payment-btn.loading .loading-spinner {
+  display: inline-block;
+}
+
+.payment-section[aria-hidden="true"] {
+  display: none !important;
+}
+
+.stripe-card-element {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.loading-spinner {
+  display: none;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s infinite linear;
+}
+
+.payment-btn.loading .btn-text {
+  display: none;
+}
+
+.payment-btn.loading .loading-spinner {
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+#sendOtpBtn {
+  margin-top: 8px;
+}
