@@ -2,35 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SkyConnect – Book Smarter Flights</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
+
 <body>
 <header class="header">
   <div class="container nav">
-    <div class="logo">✈️ SkyConnect</div>
-    <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
+    <div class="logo" aria-label="SkyConnect Logo">✈️ SkyConnect</div>
+    <nav class="nav-links" aria-label="Main Navigation">
+      <a href="index.html" class="active" aria-current="page">Home</a>
       <a href="about.html">About</a>
       <a href="ContactUsPage.html">Contact</a>
     </nav>
     <a href="signin.html" class="sign-in-btn" id="signInBtn">Sign In</a>
-    <button id="logoutBtn" style="display:none; margin-left: 10px;">Sign Out</button>
+    <button id="logoutBtn" style="display:none; margin-left:10px;">Sign Out</button>
   </div>
 </header>
 
 <main>
-  <section class="hero">
+  <section class="hero" role="banner">
     <div class="container">
       <div class="hero-content">
         <h1>Fly Smarter with <span>SkyConnect</span></h1>
         <p>Discover affordable flights, seamless layovers, and top-tier travel perks—all in one app.</p>
       </div>
 
-      <div class="search-card">
-        <form id="searchForm" class="search-form" autocomplete="on">
+      <div class="search-card" role="search" aria-label="Flight Search Form">
+        <form id="searchForm" class="search-form" novalidate>
           <div class="form-row">
             <div class="form-group">
               <label for="origin">Origin</label>
@@ -54,20 +55,21 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group">
-              <label>Flight Type</label>
-              <label><input type="radio" name="flightType" value="direct" checked> Direct</label>
-              <label><input type="radio" name="flightType" value="layover"> Layover</label>
-            </div>
+            <fieldset class="form-group" aria-label="Flight Type">
+              <legend>Flight Type</legend>
+              <label><input type="radio" name="flightType" value="direct" checked /> Direct</label>
+              <label><input type="radio" name="flightType" value="layover" /> Layover</label>
+            </fieldset>
             <div class="form-group">
               <label for="budget">Max Budget ($)</label>
               <input type="number" id="budget" name="budget" placeholder="e.g. 1000" min="0" />
+              <small class="form-text">Optional</small>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Flight Class</label>
+              <label for="flightClass">Flight Class</label>
               <select id="flightClass" name="flightClass">
                 <option value="economy">Economy</option>
                 <option value="business">Business</option>
@@ -75,7 +77,7 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Passengers</label>
+              <label for="passengerValue">Passengers</label>
               <input type="number" id="passengerValue" name="passengerCount" value="1" min="1" max="10" />
             </div>
           </div>
@@ -87,45 +89,47 @@
   </section>
 </main>
 
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="container">
     <p>&copy; 2025 SkyConnect. All rights reserved.</p>
   </div>
 </footer>
 
-<!-- Redirect search form handler -->
 <script>
-  document.getElementById("searchForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("searchForm");
 
-    const origin = document.getElementById("origin").value.trim();
-    const destination = document.getElementById("destination").value.trim();
-    const departDate = document.getElementById("departDate").value;
-    const returnDate = document.getElementById("returnDate").value;
-    const flightType = document.querySelector('input[name="flightType"]:checked').value;
-    const budget = document.getElementById("budget").value;
-    const flightClass = document.getElementById("flightClass").value;
-    const passengerCount = document.getElementById("passengerValue").value;
+    form.addEventListener("submit", event => {
+      event.preventDefault();
 
-    if (!origin || !destination || !departDate) {
-      alert("Please fill in Origin, Destination and Departure Date to continue.");
-      return;
-    }
+      const origin = document.getElementById("origin").value.trim();
+      const destination = document.getElementById("destination").value.trim();
+      const departDate = document.getElementById("departDate").value;
+      const returnDate = document.getElementById("returnDate").value;
+      const flightType = document.querySelector('input[name="flightType"]:checked').value;
+      const budget = document.getElementById("budget").value;
+      const flightClass = document.getElementById("flightClass").value;
+      const passengerCount = document.getElementById("passengerValue").value;
 
-    const params = new URLSearchParams({
-      origin,
-      destination,
-      departDate,
-      returnDate,
-      flightType,
-      budget,
-      flightClass,
-      passengerCount
+      if (!origin || !destination || !departDate) {
+        alert("Please fill in Origin, Destination, and Departure Date.");
+        return;
+      }
+
+      const params = new URLSearchParams({
+        origin,
+        destination,
+        departDate,
+        returnDate,
+        flightType,
+        budget,
+        flightClass,
+        passengerCount
+      });
+
+      window.location.href = `results.html?${params.toString()}`;
     });
-
-    window.location.href = `results.html?${params.toString()}`;
   });
 </script>
-
 </body>
 </html>

@@ -61,31 +61,39 @@
 
       <!-- Mobile money section -->
       <div id="mobileMoneyDetails" class="payment-section" aria-hidden="true" style="display:none;">
-  <div class="form-group">
-    <label for="phoneNumber">Phone Number (+254)</label>
-    <input type="tel" id="phoneNumber" required>
-    <div id="phoneNumberError" class="error-message"></div>
-  </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number (+254)</label>
+          <input type="tel" id="phoneNumber" required>
+          <div id="phoneNumberError" class="error-message"></div>
+        </div>
 
-  <!-- New Send OTP button -->
-  <div class="form-group">
-    <button type="button" id="sendOtpBtn" class="payment-btn">Send OTP</button>
-  </div>
+        <!-- New Send OTP button -->
+        <div class="form-group">
+          <button type="button" id="sendOtpBtn" class="payment-btn">Send OTP</button>
+        </div>
 
-  <div class="form-group" id="otpGroup" style="display:none;">
-    <label for="otp">OTP</label>
-    <input type="text" id="otp" maxlength="6">
-    <button type="button" id="resendOtp" disabled>Resend OTP</button>
-    <p id="otpTimer"></p>
-    <div id="otpError" class="error-message"></div>
+        <div class="form-group" id="otpGroup" style="display:none;">
+          <label for="otp">OTP</label>
+          <input type="text" id="otp" maxlength="6">
+          <button type="button" id="resendOtp" disabled>Resend OTP</button>
+          <p id="otpTimer"></p>
+          <div id="otpError" class="error-message"></div>
+        </div>
+      </div>
+
+      <!-- Confirm Payment Button -->
+      <div class="form-group">
+        <button type="button" id="confirmPaymentBtn" class="payment-btn">Confirm Payment</button>
+      </div>
+    </form>
   </div>
-</div>
 
   <!-- Modals -->
   <div class="modal-overlay" id="confirmModal" aria-hidden="true">
     <div class="modal">
       <h3>Confirm Payment</h3>
-      <button id="confirmYes">Yes</button>
+      <p>Are you sure you want to proceed with the payment?</p>
+      <a href="BookingConfirmation.html" id="confirmYes" class="btn-confirm">Yes</a>
       <button id="confirmNo">Cancel</button>
     </div>
   </div>
@@ -100,6 +108,21 @@
 
   <script src="https://js.stripe.com/v3/"></script>
   <script src="payment.js"></script>
+  <script>
+    document.getElementById('confirmPaymentBtn').addEventListener('click', function () {
+      document.getElementById('confirmModal').style.display = 'block';
+      document.getElementById('confirmModal').setAttribute('aria-hidden', 'false');
+    });
+
+    document.getElementById('confirmYes').addEventListener('click', function () {
+      document.getElementById('paymentForm').submit();
+    });
+
+    document.getElementById('confirmNo').addEventListener('click', function () {
+      document.getElementById('confirmModal').style.display = 'none';
+      document.getElementById('confirmModal').setAttribute('aria-hidden', 'true');
+    });
+  </script>
 </body>
 
 </html>
