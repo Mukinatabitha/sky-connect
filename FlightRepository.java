@@ -9,18 +9,16 @@ public class FlightRepository {
     public FlightRepository(Connection conn) {
         this.conn = conn;
     }
-
+    
     public List<Flight> filterFlights(String origin, String destination, LocalDate date,
                                       Double maxPrice, Boolean isDirect,
                                       String flightClass, int passengers) throws SQLException {
-        String sql = """
-            SELECT * FROM flights
-            WHERE (? IS NULL OR origin = ?)
-              AND (? IS NULL OR destination = ?)
-              AND (? IS NULL OR departure_date = ?)
-              AND (? IS NULL OR price <= ?)
-              AND (? IS NULL OR is_direct = ?)
-        """;
+        String sql = "SELECT * FROM flights " +
+            "WHERE (? IS NULL OR origin = ?) " +
+            "AND (? IS NULL OR destination = ?) " +
+            "AND (? IS NULL OR departure_date = ?) " +
+            "AND (? IS NULL OR price <= ?) " +
+            "AND (? IS NULL OR is_direct = ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, origin);      stmt.setString(2, origin);

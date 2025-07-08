@@ -1,14 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.io.File;
-
 public class LandingPage {
     private static Point mouseClickPoint;
 
