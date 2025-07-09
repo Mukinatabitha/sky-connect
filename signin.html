@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flight Aggregator Login</title>
+  <title>Sky Connect Login</title>
   <style>
     * {
       box-sizing: border-box;
@@ -23,8 +23,7 @@
 
     .left-panel {
       flex: 1;
-      background: url("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/Signupimg.png"
-      )no-repeat center;
+      background: url("https://raw.githubusercontent.com/Mukinatabitha/sky-connect/main/Signupimg.png") no-repeat center;
       background-size: cover;
     }
 
@@ -87,12 +86,25 @@
       font-size: 16px;
     }
 
-    .input-group i {
+    .input-group i.fa-envelope,
+    .input-group i.fa-lock {
       position: absolute;
       left: 15px;
       top: 50%;
       transform: translateY(-50%);
       color: black;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: black;
+      font-size: 18px;
     }
 
     .login-link {
@@ -122,55 +134,56 @@
       background-color: #316f85;
     }
   </style>
-  <!-- Link to Font Awesome for icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-  <div class="container">
-    <div class="left-panel"></div>
-    <div class="right-panel">
-      <h1>Welcome to SkyConnect Website</h1>
-      <div class="icon">
-        <i class="fas fa-globe"></i>
+<div class="container">
+  <div class="left-panel"></div>
+  <div class="right-panel">
+    <h1>Welcome To The SkyConnect Website</h1>
+    <div class="icon"><i class="fas fa-globe"></i></div>
+    <div class="divider"><span>Sign In</span></div>
+
+    <form action="login.php" method="POST">
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email" required />
       </div>
-      <div class="divider"><span>Sign In</span></div>
-      <form>
-        <div class="input-group">
-          <i class="fas fa-envelope"></i>
-          <input type="email" placeholder="Email" required />
-        </div>
-        <div class="input-group">
-          <i class="fas fa-lock"></i>
-          <input type="password" placeholder="Password" required />
-        </div>
-        <div class="login-link">
-          Not registered?
-          <a href="signup.html">Create An Account</a>
-        </div>
-        <button type="submit" class="login-btn">Login</button>
-      </form>
-    </div>
+
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" id="password" required />
+        <button type="button" class="toggle-password" onclick="togglePassword()">
+          <i id="eye-icon" class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <div class="login-link">
+        Not registered?
+        <a href="signup.html">Create An Account</a>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
   </div>
-  <script>
-  document.querySelector("form").addEventListener("submit", function (e) {
-    e.preventDefault();
+</div>
 
-    const email = document.querySelector("input[type='email']").value;
-    const password = document.querySelector("input[type='password']").value;
-
-    // Simulate login success (replace with real backend auth later)
-    const user = {
-      name: email.split('@')[0], // basic name logic
-      email: email
-    };
-
-    localStorage.setItem("user", JSON.stringify(user));
-
-    // Redirect to homepage
-    window.location.href = "index.html";
-  });
+<script>
+  function togglePassword() {
+    const passwordField = document.getElementById("password");
+    const eyeIcon = document.getElementById("eye-icon");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      eyeIcon.classList.remove("fa-eye");
+      eyeIcon.classList.add("fa-eye-slash");
+    } else {
+      passwordField.type = "password";
+      eyeIcon.classList.remove("fa-eye-slash");
+      eyeIcon.classList.add("fa-eye");
+    }
+  }
 </script>
-
 </body>
-
 </html>
+
+

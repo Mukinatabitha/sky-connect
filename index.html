@@ -129,6 +129,22 @@
 
       window.location.href = `results.html?${params.toString()}`;
     });
+
+    // 👇 ADDITION: Show welcome message from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get("name");
+    if (name) {
+      const welcomeBanner = document.createElement("div");
+      welcomeBanner.textContent = `🎉 Welcome to SkyConnect, ${decodeURIComponent(name)}!`;
+      welcomeBanner.style.background = "#2c7a92";
+      welcomeBanner.style.color = "white";
+      welcomeBanner.style.padding = "12px";
+      welcomeBanner.style.textAlign = "center";
+      welcomeBanner.style.fontWeight = "bold";
+      welcomeBanner.style.fontSize = "18px";
+      welcomeBanner.style.marginBottom = "10px";
+      document.body.insertBefore(welcomeBanner, document.body.firstChild);
+    }
   });
 </script>
 </body>
