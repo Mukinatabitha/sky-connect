@@ -8,24 +8,13 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body class="payment-bg">
-  <header class="header payment-header">
-    <div class="container nav">
-      <div class="logo">
-        <img src="skyconnect-logo.png" alt="SkyConnect Logo" class="logo-img">
-        <span>SkyConnect</span>
-      </div>
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="ContactUsPage.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+ 
 
   <div class="payment-container">
     <h2>Payment Information</h2>
 
-    <form id="paymentForm" action="#" method="post">
+<form id="paymentForm" action="/process-payment" method="post">
+
       <div class="payment-methods">
         <label class="payment-option">
           <input type="radio" name="paymentMethod" value="Visa">
@@ -39,7 +28,7 @@
         </label>
         <label class="payment-option">
           <input type="radio" name="paymentMethod" value="Mobile Money">
-          <img src="mobile-money.png" alt="Mobile Money">
+          <img src="mpesa.png" alt="Mobile Money">
           <span>Mobile Money</span>
         </label>
       </div>
@@ -48,7 +37,7 @@
       <div id="cardDetails" class="payment-section" aria-hidden="true" style="display:none;">
         <div class="form-group">
           <label for="cardName">Name on Card</label>
-          <input type="text" id="cardName" required>
+          <input type="text" id="cardName" name="cardName">
           <div id="cardNameError" class="error-message"></div>
         </div>
 
@@ -63,7 +52,7 @@
       <div id="mobileMoneyDetails" class="payment-section" aria-hidden="true" style="display:none;">
         <div class="form-group">
           <label for="phoneNumber">Phone Number (+254)</label>
-          <input type="tel" id="phoneNumber" required>
+          <input type="tel" id="phoneNumber" name="phoneNumber">
           <div id="phoneNumberError" class="error-message"></div>
         </div>
 
@@ -74,7 +63,7 @@
 
         <div class="form-group" id="otpGroup" style="display:none;">
           <label for="otp">OTP</label>
-          <input type="text" id="otp" maxlength="6">
+          <input type="text" id="otp" name="otp">
           <button type="button" id="resendOtp" disabled>Resend OTP</button>
           <p id="otpTimer"></p>
           <div id="otpError" class="error-message"></div>

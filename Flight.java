@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Flight {
     private int id;
@@ -25,14 +24,23 @@ public class Flight {
         this.seatsFirst = seatsFirst;
     }
 
-    // Getter methods
+    /**
+     * Returns the number of available seats for the given flight class.
+     *
+     * @param flightClass the class of the flight (economy, business, or first)
+     * @return the number of available seats
+     */
     public int getAvailableSeats(String flightClass) {
-        return switch (flightClass.toLowerCase()) {
-            case "economy" -> seatsEconomy;
-            case "business" -> seatsBusiness;
-            case "first" -> seatsFirst;
-            default -> 0;
-        };
+        switch (flightClass.toLowerCase()) {
+            case "economy":
+                return seatsEconomy;
+            case "business":
+                return seatsBusiness;
+            case "first":
+                return seatsFirst;
+            default:
+                return 0;
+        }
     }
 
     public double getPrice() { return price; }

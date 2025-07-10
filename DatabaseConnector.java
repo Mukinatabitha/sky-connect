@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public class DatabaseConnector {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/sky_connect";
+    private static final String URL = "jdbc:mysql://localhost:3306/sky-connect";
     private static final String USER = "root";
-    private static final String PASSWORD = "admin123";
+    private static final String PASSWORD = "";
 
     public static Connection getConnection() throws SQLException {
         try {

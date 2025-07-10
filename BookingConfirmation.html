@@ -8,12 +8,13 @@
 </head>
 
 <body>
-     <header>
+  <header>
     <div class="header-container">
       <img src="skyconnect-logo.png" alt="Sky Connect Logo" class="header-logo">
       <span class="header-title">SkyConnect</span>
     </div>
   </header>
+
   <div class="container">
     <div class="confirmation-card">
       <div class="photo-collage">
@@ -23,11 +24,11 @@
         <img src="./Pictures/adventure4.png" alt="Destination 4">
         <img src="./Pictures/adventure5.png" alt="Destination 5">
         <img src="./Pictures/adventure6.png" alt="Destination 6">
-    </div>
+      </div>
 
-      <h1>Your flight is booked.<br> Get ready for your next adventure!</h1>
+      <h1>Your flight is booked.<br>Get ready for your next adventure!</h1>
       <p class="subtitle">Thank you for choosing SkyConnect. Your booking has been confirmed.</p>
-      
+
       <div class="confirmation-details">
         <div class="detail-row">
           <span class="detail-label">Booking Reference:</span>
@@ -50,47 +51,46 @@
           <span>Ksh. 161,427.00</span>
         </div>
       </div>
-      
+
       <p>Your e-ticket has been generated and is ready for download.</p>
-      <a href="/download-ticket/SKY2023-5A8B2C" class="download-btn">Download E-Ticket</a>
-      
+      <a href="./tickets/SKY2023-5A8B2C.pdf" class="download-btn" download>Download E-Ticket</a>
+
       <div class="additional-info">
         <p>For any questions, please <a href="ContactUsPage.html" class="support-link">contact our customer support</a>.</p>
       </div>
     </div>
-    
-    
   </div>
-   <footer>
+
+  <footer>
     &copy; 2025 SkyConnect.
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const bookingData = {
+        bookingReference: 'SKY2023-5A8B2C',
+        flight: 'Nairobi (NBO) to New York (JFK)',
+        flightDate: '2025-11-15',
+        passengerName: 'Natalie Abwoga',
+        totalPaid: 161427.00
+      };
+
+      fetch('http://localhost:8080/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bookingData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to store booking');
+        }
+        return response.json();
+      })
+      .then(data => console.log('Booking saved:', data))
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const bookingData = {
-      bookingReference: 'SKY2023-5A8B2C',
-      flight: 'Nairobi (NBO) to New York (JFK)',
-      flightDate: '2025-11-15',
-      passengerName: 'Natalie Abwoga',
-      totalPaid: 161427.00
-    };
-
-    fetch('http://localhost:8080/api/bookings', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(bookingData)
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to store booking');
-      }
-      return response.json();
-    })
-    .then(data => console.log('Booking saved:', data))
-    .catch(error => console.error('Error:', error));
-  });
-</script>
-
 </html>

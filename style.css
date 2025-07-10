@@ -1,25 +1,35 @@
 body.payment-bg {
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  background: url('PaymentBackground.png') no-repeat fixed;
+  background-position: center 10%; 
+  background-size: 100%;
+  filter: brightness(0.7);
   font-family: 'Outfit', sans-serif;
-  color: #fff;
   margin: 0;
   padding: 0;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
+
+
+
 .payment-container {
-  background: #ffffff;
-  color: #000;
+  background: #ffffff;  /* Pure white */
+  color: #000000;        /* Ensure high readability */
   padding: 40px;
   border-radius: 16px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);  /* ⬅️ Realistic subtle shadow */
   animation: fadeInUp 0.8s ease-out;
+  backdrop-filter: blur(6px); /* Optional: Glass-like effect if background is visible */
+  position: relative;
+  z-index: 10;
 }
+
+
 
 .payment-container h2 {
   text-align: center;

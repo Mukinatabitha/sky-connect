@@ -7,12 +7,24 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "body-parser": "^2.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "stripe": "^14.9.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mukinatabitha/sky-connect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mukinatabitha/sky-connect/issues"
+  },
+  "homepage": "https://github.com/Mukinatabitha/sky-connect#readme"
 }

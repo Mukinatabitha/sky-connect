@@ -1,41 +1,35 @@
-require('dotenv').config();
 const express = require('express');
-const Stripe = require('stripe');
-const cors = require('cors');
+const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const PORT = 8080;
 
-app.use(cors());
-app.use(express.json());
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Payment intent endpoint
-app.post('/create-payment-intent', async (req, res) => {
-  try {
-    const { amount, currency, payment_method_types } = req.body;
+// Serve static files (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'public')));
 
-    if (!amount) {
-      return res.status(400).json({ error: 'Amount is required' });
-    }
+// Fake payment processing endpoint
+app.post('/process-payment', (req, res) => {
+  const { paymentMethod, cardName, phoneNumber, otp } = req.body;
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency: currency || 'usd',
-      payment_method_types: payment_method_types || ['card'],
-    });
-
-    res.status(200).json({ clientSecret: paymentIntent.client_secret });
-  } catch (err) {
-    console.error('Payment Intent Error:', err);
-    res.status(500).json({ error: err.message });
+  console.log('Processing payment...');
+  console.log('Payment Method:', paymentMethod);
+  if (paymentMethod === 'Visa' || paymentMethod === 'Mastercard') {
+    console.log('Card Name:', cardName);
+  } else if (paymentMethod === 'Mobile Money') {
+    console.log('Phone:', phoneNumber);
+    console.log('OTP:', otp);
   }
-});
 
-// Test route (optional)
-app.get('/', (req, res) => {
-  res.send('SkyConnect Payment API is live');
+  // Simulate successful payment
+  res.redirect('/BookingConfirmation.html');
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
+});
