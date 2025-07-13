@@ -1,0 +1,89 @@
+/* General Reset and Layout */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: auto;
+}
+
+/* Page container (optional if you wrap content in a div) */
+.thankyou-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    color: #2c3e50;
+    padding: 1rem;
+}
+
+/* Header text */
+.thankyou-page h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+    animation: bounce 1s ease-in-out;
+}
+
+/* Subtext */
+.thankyou-page p {
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* Back link */
+.thankyou-page a {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #0077b6;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.thankyou-page a:hover {
+    background-color: #023e8a;
+}
+
+/* Flying plane container */
+#plane-container {
+    position: fixed;
+    top: 20%;
+    left: -150px;
+    z-index: 1000;
+}
+
+#plane {
+    width: 100px;
+    animation: flyAcross 8s linear forwards;
+}
+
+/* Plane animation */
+@keyframes flyAcross {
+    to {
+        transform: translateX(110vw) rotate(10deg);
+    }
+}
+
+/* Text bounce animation */
+@keyframes bounce {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+/* Emoji confetti animation (reinforced if needed) */
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
